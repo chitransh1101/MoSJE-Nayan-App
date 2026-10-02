@@ -1,0 +1,40 @@
+name: Docker compose smoke test
+
+# Builds and starts the whole stack exactly as the README says, then checks
+# that the API, Sentinel and Setu answer and a demo account can sign in.
+
+on:
+  push:
+    branches: [main]
+    paths: ["docker-compose.yml", "backend/**", "sentinel/**", "setu/**", "launcher/**", ".github/workflows/compose.yml"]
+  workflow_dispatch:
+
+jobs:
+  up:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: docker compose up
+        run: docker compose up -d --build
+      - name: Wait for the API and check every service
+        run: |
+          for i in $(seq 1 60); do curl -fs http://localhost:8000/health && break; sleep 5; done
+          curl -fs http://localhost:8000/health
+          curl -fs http://localhost:5173/ | grep -qi "<div id=\"root\""
+          curl -fs http://localhost:5174/ | grep -qi "<div id=\"root\""
+          curl -fs http://localhost:3000/ | grep -q "Open Sentinel"
+          # through each web app's nginx proxy, like a browser would
+          for port in 5173 5174; do
+            curl -fs -X POST http://localhost:$port/api/v1/auth/login -H 'Content-Type: application/json' \
+              -d '{"email":"official@dosje.gov.in","password":"Password123!"}' | grep -q access_token
+          done
+          curl -fsI http://localhost:5173/ | grep -qi content-security-policy
+          echo "All services up"
+      - name: Logs on failure
+        if: failure()
+        run: |
+          docker compose ps
+          docker compose logs --tail=80 > /tmp/logs.txt 2>&1
+          python3 -c "print('::error title=compose logs::'+open('/tmp/logs.txt').read()[-3500:].replace('%','%25').replace('\n','%0A'))"
+      - if: always()
+        run: docker compose down -v

@@ -1,0 +1,56 @@
+name: Backend tests
+
+# Runs the backend test suite, then applies the database migrations and
+# loads the demo data into a real Postgres, whenever backend/ changes.
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend.yml"]
+  pull_request:
+    paths: ["backend/**"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: {POSTGRES_PASSWORD: pw, POSTGRES_DB: nigrani}
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-retries 10
+    defaults:
+      run: {working-directory: backend}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11", cache: pip, cache-dependency-path: backend/requirements.txt}
+      - run: pip install -r requirements.txt
+      - name: pytest
+        run: |
+          set -o pipefail
+          python -m pytest -p no:cacheprovider --junitxml=/tmp/junit.xml 2>&1 | tee /tmp/pytest.txt
+      - name: Report failures
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import os, xml.etree.ElementTree as ET
+          def ann(title, msg):
+              msg = msg[-3500:].replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+              print(f"::error title={title}::{msg}")
+          n = 0
+          if os.path.exists("/tmp/junit.xml"):
+              for tc in ET.parse("/tmp/junit.xml").iter("testcase"):
+                  for f in list(tc.findall("failure")) + list(tc.findall("error")):
+                      ann(tc.get("name"), (f.get("message") or "") + "\n" + (f.text or "")); n += 1
+          if n == 0 and os.path.exists("/tmp/pytest.txt"):
+              ann("pytest output", open("/tmp/pytest.txt").read())
+          PY
+      - name: Migrate and seed (Postgres)
+        env: {DATABASE_URL: "postgresql://postgres:pw@localhost:5432/nigrani"}
+        run: |
+          alembic upgrade head
+          python -m app.seed.seed_data
+          alembic downgrade 4b1fdea9cbae
+          alembic upgrade head

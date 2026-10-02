@@ -1,0 +1,85 @@
+# One command brings up the whole connected system (or double-click start.bat):
+#   docker-compose up -d --build
+#     Home      http://localhost:3000   (links to everything below + demo accounts)
+#     Sentinel  http://localhost:5173   (officials)
+#     Setu      http://localhost:5174   (institutes & beneficiaries)
+#     API docs  http://localhost:8000/docs
+# The backend migrates on start and seeds the demo world on first boot
+# (RUN_SEED_ON_START). Nayan (the Flutter app at the repo root) points its
+# API address at :8000.
+#
+# Optional DB browser:  docker-compose --profile tools up -d adminer   -> http://localhost:8080
+#
+# Evidence files are stored on a Docker volume (evidence). To use S3 or any
+# S3-compatible store instead, set STORAGE_BACKEND=s3 and the S3_* variables
+# on the backend (see backend/.env.example).
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: dosje
+      POSTGRES_USER: dosje
+      POSTGRES_PASSWORD: dosje_dev
+    # No host port: only the backend talks to the database.
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dosje"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://dosje:dosje_dev@db:5432/dosje
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+      STORAGE_BACKEND: local
+      STORAGE_LOCAL_PATH: /app/evidence_store
+      DEBUG: "false"
+      RUN_SEED_ON_START: "true"
+      # nginx in front of Sentinel/Setu forwards the real client address
+      TRUST_PROXY_HEADERS: "true"
+      # Yukt (optional) - leave empty and Yukt answers from its built-in guide
+      YUKT_LLM_API_KEY: ${YUKT_LLM_API_KEY:-}
+    volumes:
+      - evidence:/app/evidence_store
+    ports:
+      - "8000:8000"
+
+  sentinel:
+    build: ./sentinel
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  setu:
+    build: ./setu
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+
+  # One page with every app, live status and the demo accounts.
+  home:
+    build: ./launcher
+    ports:
+      - "3000:80"
+
+  # Lightweight DB browser (optional): docker-compose --profile tools up -d adminer
+  adminer:
+    image: adminer:latest
+    profiles: ["tools"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
+  evidence:

@@ -1,0 +1,66 @@
+name: Windows start.bat update check
+
+# Proves the auto-update in scripts/start.ps1 works on real Windows, for both
+# kinds of copy: a ZIP download (no .git) and a git clone.
+
+on:
+  push:
+    branches: [main]
+    paths: ["scripts/**", "start.bat", ".github/workflows/start-script.yml"]
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: ZIP copy updates itself
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:RUNNER_TEMP "zipcopy"
+          New-Item -ItemType Directory $dir | Out-Null
+          Copy-Item -Recurse scripts, start.bat $dir
+          # an old ZIP copy: only a stale README
+          Set-Content (Join-Path $dir "README.md") "old"
+          powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $dir "scripts\start.ps1") -UpdateOnly
+          if (-not (Test-Path (Join-Path $dir ".nigrani-version"))) { throw "no version marker written" }
+          if ((Get-Content (Join-Path $dir "README.md") -Raw) -eq "old") { throw "README was not updated" }
+          if (-not (Test-Path (Join-Path $dir "docker-compose.yml"))) { throw "files missing after update" }
+          # second run: nothing new
+          powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $dir "scripts\start.ps1") -UpdateOnly
+          Write-Host "ZIP update OK"
+      - name: git clone updates itself
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Continue"
+          $dir = Join-Path $env:RUNNER_TEMP "gitcopy"
+          git clone -q https://github.com/${{ github.repository }}.git $dir 2>&1 | Out-Null
+          git -C $dir reset -q --hard HEAD~1
+          $before = git -C $dir rev-parse HEAD
+          $out = powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $dir "scripts\start.ps1") -UpdateOnly 2>&1 | Out-String
+          $after = git -C $dir rev-parse HEAD
+          $remote = (git ls-remote https://github.com/${{ github.repository }}.git refs/heads/main).Split()[0]
+          Write-Host $out
+          if ($after -ne $remote) {
+            $msg = "before=$before after=$after remote=$remote`n$out" -replace "%","%25" -replace "`r","" -replace "`n","%0A"
+            Write-Host "::error title=git update::$msg"
+            exit 1
+          }
+          Write-Host "git update OK"
+          exit 0
+
+      - name: Desktop mode downloads and runs the app
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Continue"
+          $env:NIGRANI_NO_BROWSER = "1"
+          powershell -NoProfile -ExecutionPolicy Bypass -File scripts\start.ps1 -Desktop
+          $ok = $false
+          for ($i = 0; $i -lt 90; $i++) {
+            try { if ((Invoke-WebRequest -UseBasicParsing -TimeoutSec 3 http://localhost:8000/health).StatusCode -eq 200) { $ok = $true; break } } catch {}
+            Start-Sleep 2
+          }
+          Get-Process -Name "DoSJE-Nigrani" -ErrorAction SilentlyContinue | Stop-Process -Force
+          if (-not $ok) { Write-Host "::error title=desktop mode::app did not start"; exit 1 }
+          Write-Host "Desktop mode OK"
+          exit 0

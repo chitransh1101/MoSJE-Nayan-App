@@ -1,0 +1,196 @@
+name: Build Nayan
+
+# Every push to main builds:
+#   • Android APK  → downloadable from the "latest" GitHub Release (install on any Android phone)
+#   • Web app      → published to GitHub Pages (open on iPhone/Android, "Add to Home Screen")
+# iOS: run this workflow manually with "Build iOS" ticked (compile check; signing needs an Apple account).
+#
+# Optional: set a repository variable API_BASE (Settings → Secrets and variables → Actions → Variables)
+# to your backend, e.g. https://api.example.gov.in/api/v1. Empty = demo mode.
+
+on:
+  push:
+    branches: [main]
+    # Backend / web-app-only changes don't rebuild the phone app.
+    paths-ignore: ["backend/**", "start.bat", "stop.bat", "start.sh", "scripts/**", ".github/workflows/start-script.yml", ".github/workflows/desktop.yml", "docker-compose.yml", ".github/workflows/backend.yml", ".github/workflows/web.yml"]
+  workflow_dispatch:
+    inputs:
+      ios:
+        description: "Build iOS too (unsigned compile check)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: nayan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate Android / iOS / web folders
+        run: flutter create . --platforms=android,ios,web --org in.gov.dosje --project-name nayan
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Permissions, app name, web-app settings
+        run: dart run tool/setup_platforms.dart
+
+      - name: App icons
+        run: dart run flutter_launcher_icons
+        continue-on-error: true
+
+      - name: Analyze
+        run: |
+          set +e
+          dart analyze --format=machine > analyze.txt 2>&1
+          # Put every error (and the first warnings) into one annotation so it is readable without the raw log.
+          msg=$(grep -E '^(ERROR|WARNING)\|' analyze.txt | head -60 | awk -F'|' '{n=split($4,p,"/"); printf "%s %s:%s %s — %s%%0A", $1, p[n], $5, $3, $8}')
+          if grep -q '^ERROR|' analyze.txt; then
+            echo "::error title=Analyzer errors::$msg"
+            exit 1
+          fi
+          [ -n "$msg" ] && echo "::warning title=Analyzer warnings::$msg"
+          exit 0
+
+      - name: Test
+        run: |
+          set +e
+          flutter test --reporter expanded > test.txt 2>&1
+          code=$?
+          cat test.txt
+          if [ $code -ne 0 ]; then
+            msg=$(grep -v '^\s*$' test.txt | grep -A 40 -m 3 -E 'EXCEPTION CAUGHT|Expected:|Error:|Test failed' | head -80 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            echo "::error title=Test failure::$msg"
+          fi
+          exit $code
+
+      - name: Screenshots
+        continue-on-error: true
+        run: |
+          FR=$(dirname $(dirname $(which flutter)))
+          mkdir -p test_screens/fonts
+          cp "$FR"/bin/cache/artifacts/material_fonts/Roboto-*.ttf test_screens/fonts/ 2>/dev/null || true
+          cp "$FR"/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf test_screens/fonts/ 2>/dev/null || true
+          curl -sSL -o test_screens/fonts/NotoSansDevanagari.ttf "https://github.com/google/fonts/raw/main/ofl/notosansdevanagari/NotoSansDevanagari%5Bwdth%2Cwght%5D.ttf" || true
+          ls -la test_screens/fonts
+          set +e
+          flutter test --update-goldens test_screens/screens_test.dart > shots.txt 2>&1
+          code=$?
+          tail -60 shots.txt
+          if [ $code -ne 0 ]; then
+            msg=$(grep -v '^\s*$' shots.txt | grep -A 30 -m 3 -E 'EXCEPTION CAUGHT|Expected:|Error:|overflowed' | head -70 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            echo "::warning title=Screenshot test::$msg"
+          fi
+          cd test_screens/shots && git init -q && git checkout -q -b screenshots && git add . && git -c user.name=nayan-ci -c user.email=ci@users.noreply.github.com commit -qm "screenshots $GITHUB_SHA" && git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" screenshots
+
+      - name: Build Android APK
+        run: |
+          flutter build apk --release --dart-define=API_BASE=${{ vars.API_BASE }}
+          cp build/app/outputs/flutter-apk/app-release.apk nayan.apk
+
+      - name: Build web app
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --dart-define=API_BASE=${{ vars.API_BASE }}
+
+      # The same GitHub Pages site also carries the online demo of the two
+      # web apps (built-in sample data, no server needed) and a landing page:
+      #   /<repo>/          Nayan        /<repo>/sentinel/   Sentinel
+      #   /<repo>/setu/     Setu         /<repo>/home/       all three + demo accounts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build Sentinel and Setu demo for GitHub Pages
+        env:
+          SITE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          set -e
+          for app in sentinel setu; do
+            (cd $app && npm install --no-audit --no-fund \
+              && VITE_USE_MOCK=true VITE_SENTINEL_URL=$SITE/sentinel/ VITE_SETU_URL=$SITE/setu/ VITE_NAYAN_URL=$SITE/ \
+                 npx vite build --base=/$REPO/$app/)
+            rm -rf build/web/$app && cp -r $app/dist build/web/$app
+          done
+          mkdir -p build/web/home
+          cp launcher/online.html build/web/home/index.html
+          cp launcher/copy.js build/web/home/copy.js
+          cp launcher/site-config.js build/web/home/site-config.js
+          cp launcher/404.html build/web/404.html
+          mkdir -p build/web/api
+          cp launcher/api.html build/web/api/index.html
+          ls build/web
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nayan-apk
+          path: nayan.apk
+
+      - name: Publish APK to the "latest" release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: latest
+          commit: ${{ github.sha }}
+          name: Nayan — latest build
+          body: |
+            Android: download **nayan.apk** on the phone and open it (allow "Install unknown apps" once).
+            iPhone / any phone: open https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/ in Safari/Chrome → Share → Add to Home Screen.
+            Build: ${{ github.sha }}
+          artifacts: nayan.apk
+          allowUpdates: true
+          replacesArtifacts: true
+          removeArtifacts: true
+          makeLatest: true
+
+      - name: Prepare GitHub Pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy-web:
+    needs: android-web
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  ios:
+    if: github.event_name == 'workflow_dispatch' && inputs.ios
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter create . --platforms=android,ios,web --org in.gov.dosje --project-name nayan
+      - run: flutter pub get
+      - run: dart run tool/setup_platforms.dart
+      - run: dart run flutter_launcher_icons
+        continue-on-error: true
+      - name: Build iOS (no code signing)
+        run: flutter build ios --release --no-codesign --dart-define=API_BASE=${{ vars.API_BASE }}

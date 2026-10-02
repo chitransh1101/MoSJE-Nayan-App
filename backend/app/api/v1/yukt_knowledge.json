@@ -1,0 +1,962 @@
+{
+ "version": "2026-09-26",
+ "docs": [
+  {
+   "id": "about-sentinel",
+   "app": "sentinel",
+   "title": "About Sentinel",
+   "hi": "Sentinel क्या है",
+   "summary": "Sentinel is the officials' dashboard of the Department of Social Justice & Empowerment for monitoring welfare institutes — shelter homes, hostels, old-age homes and rehabilitation centres. It brings every signal about an institute into one place: anomaly alerts, CCTV health, compliance scores, grievances and renewals, and it assigns surprise inspections by a cryptographic draw so no institute can predict a visit.",
+   "category": "about",
+   "aliases": [
+    "Sentinel",
+    "Dashboard purpose",
+    "What is Sentinel"
+   ],
+   "keywords": [
+    "about",
+    "purpose",
+    "what does",
+    "kya karta",
+    "kya hai",
+    "dashboard ka purpose",
+    "उद्देश्य",
+    "क्या करता",
+    "introduction",
+    "overview of sentinel",
+    "help",
+    "madad"
+   ],
+   "route": "/"
+  },
+  {
+   "id": "overview",
+   "app": "sentinel",
+   "title": "Overview",
+   "hi": "अवलोकन",
+   "summary": "The landing page: the queue of open alerts that need a decision (most serious first), four headline numbers — institutes monitored, average compliance, open alerts, critical alerts — portfolio status, camera health and the institutes needing attention.",
+   "category": "monitoring",
+   "aliases": [
+    "Home",
+    "Dashboard",
+    "Summary page",
+    "Needs a decision"
+   ],
+   "keywords": [
+    "home",
+    "dashboard",
+    "main page",
+    "summary",
+    "kpi",
+    "headline",
+    "aaj ka haal",
+    "today",
+    "होम",
+    "डैशबोर्ड",
+    "सारांश"
+   ],
+   "route": "/"
+  },
+  {
+   "id": "map",
+   "app": "sentinel",
+   "title": "Map",
+   "hi": "मानचित्र",
+   "summary": "Every institute on a map of the region, with pins whose colour and shape both show status (compliant, watch, flagged). Filter by status, search by name, click a pin for the score and a link to the institute.",
+   "category": "monitoring",
+   "aliases": [
+    "Map view",
+    "Locations"
+   ],
+   "keywords": [
+    "map",
+    "naksha",
+    "location",
+    "where are institutes",
+    "pins",
+    "geography",
+    "नक्शा",
+    "मानचित्र",
+    "jagah",
+    "naksha"
+   ],
+   "route": "/map"
+  },
+  {
+   "id": "alerts",
+   "app": "sentinel",
+   "title": "Alerts",
+   "hi": "चेतावनियाँ",
+   "summary": "The alert ledger. Every alert is written by an automated check — an anomaly score against the institute's own history, a frozen or offline camera, a missed verification call, an evidence hash mismatch, a geofence breach. Filter, sort, group and export; mark alerts reviewed or escalate them.",
+   "category": "monitoring",
+   "aliases": [
+    "Alert ledger",
+    "Warnings",
+    "Anomalies",
+    "Notifications"
+   ],
+   "keywords": [
+    "alert",
+    "alerts",
+    "warning",
+    "chetavani",
+    "anomaly",
+    "critical",
+    "red",
+    "flag",
+    "notification",
+    "चेतावनी",
+    "अलर्ट",
+    "tamper",
+    "chetavani"
+   ],
+   "route": "/alerts"
+  },
+  {
+   "id": "alert-actions",
+   "app": "sentinel",
+   "title": "Review or escalate an alert",
+   "hi": "चेतावनी की समीक्षा या आगे भेजना",
+   "summary": "On the Alerts page each open alert has 'Mark reviewed' and 'Escalate'. Escalating sends it up for action; both are recorded in the audit trail. You can also ask Yukt to do it, and confirm.",
+   "category": "action",
+   "aliases": [
+    "Escalate alert",
+    "Mark reviewed"
+   ],
+   "keywords": [
+    "escalate",
+    "review",
+    "mark reviewed",
+    "upar bhejo",
+    "aage bhejo",
+    "act on alert",
+    "close alert",
+    "समीक्षा",
+    "एस्केलेट"
+   ],
+   "route": "/alerts",
+   "how": [
+    "Open Alerts",
+    "Find the alert (use Critical or search)",
+    "Press Mark reviewed or Escalate"
+   ],
+   "roles": "deciders"
+  },
+  {
+   "id": "cameras",
+   "app": "sentinel",
+   "title": "Cameras",
+   "hi": "कैमरे",
+   "summary": "The CCTV health wall: every camera feed with its connection status — online, stale or offline — and when it last reported. It shows connection health, not live video. A feed going dark just before a visit is itself a signal.",
+   "category": "monitoring",
+   "aliases": [
+    "Camera",
+    "CCTV",
+    "Camera wall",
+    "Feeds",
+    "Video feeds"
+   ],
+   "keywords": [
+    "camera",
+    "cameras",
+    "cctv",
+    "feed",
+    "video",
+    "offline camera",
+    "camera kaha",
+    "camera dekhna",
+    "कैमरा",
+    "सीसीटीवी",
+    "फ़ीड",
+    "band camera"
+   ],
+   "route": "/cameras"
+  },
+  {
+   "id": "register",
+   "app": "sentinel",
+   "title": "Institute register",
+   "hi": "संस्था पंजिका",
+   "summary": "The list of every institute in your region with type, district, compliance score, status and renewal state. Advanced filters, multi-level sort, grouping, saved views, column picker and CSV export.",
+   "category": "assessment",
+   "aliases": [
+    "Register",
+    "Institutes",
+    "Institute list",
+    "Shelter homes list"
+   ],
+   "keywords": [
+    "register",
+    "institutes",
+    "institute list",
+    "list",
+    "shelter",
+    "hostel",
+    "old age home",
+    "sanstha",
+    "संस्था",
+    "पंजिका",
+    "सूची",
+    "compliance score",
+    "sanstha"
+   ],
+   "route": "/institutes"
+  },
+  {
+   "id": "institute-detail",
+   "app": "sentinel",
+   "title": "Institute profile",
+   "hi": "संस्था विवरण",
+   "summary": "Open any institute to see its compliance score, open alerts, camera status, grievances, renewal decision, documents and its assigned inspector — with Connect with Inspector right there.",
+   "category": "assessment",
+   "aliases": [
+    "Institute page",
+    "Institute details",
+    "Profile"
+   ],
+   "keywords": [
+    "institute detail",
+    "profile",
+    "one institute",
+    "specific institute",
+    "details",
+    "विवरण"
+   ],
+   "route": "/institutes"
+  },
+  {
+   "id": "districts",
+   "app": "sentinel",
+   "title": "Districts",
+   "hi": "ज़िले",
+   "summary": "A heatmap of every district across compliance, flagged share, open and critical alerts, cameras dark, SLA breaches and renewals due — darker means needs attention — plus top-performing and needs-attention rankings.",
+   "category": "assessment",
+   "aliases": [
+    "District heatmap",
+    "Heatmap",
+    "District ranking",
+    "Leaderboard"
+   ],
+   "keywords": [
+    "district",
+    "districts",
+    "heatmap",
+    "ranking",
+    "leaderboard",
+    "zila",
+    "jila",
+    "ज़िला",
+    "जिला",
+    "best district",
+    "worst district",
+    "zila"
+   ],
+   "route": "/districts"
+  },
+  {
+   "id": "analytics",
+   "app": "sentinel",
+   "title": "Analytics",
+   "hi": "विश्लेषण",
+   "summary": "Portfolio charts: status distribution, compliance score bands, alerts by detector, alerts over time, institutes by district and type, and camera health — each with a table view.",
+   "category": "assessment",
+   "aliases": [
+    "Charts",
+    "Graphs",
+    "Statistics",
+    "Stats",
+    "Trends"
+   ],
+   "keywords": [
+    "chart",
+    "charts",
+    "graph",
+    "graphs",
+    "analytics",
+    "statistics",
+    "stats",
+    "trend",
+    "vishleshan",
+    "विश्लेषण",
+    "ग्राफ",
+    "चार्ट",
+    "आँकड़े",
+    "vishleshan"
+   ],
+   "route": "/analytics"
+  },
+  {
+   "id": "reports",
+   "app": "sentinel",
+   "title": "Reports",
+   "hi": "रिपोर्ट",
+   "summary": "Build a formal report on the department's letterhead for a district or the whole region and period, then download it as a multi-page PDF or a multi-sheet Excel workbook. Every download is recorded in the audit trail.",
+   "category": "assessment",
+   "aliases": [
+    "Report",
+    "PDF report",
+    "Excel report",
+    "Download report",
+    "Export report",
+    "Monthly report"
+   ],
+   "keywords": [
+    "report",
+    "pdf",
+    "excel",
+    "xlsx",
+    "download",
+    "print",
+    "monthly report",
+    "riport",
+    "रिपोर्ट",
+    "डाउनलोड"
+   ],
+   "route": "/reports"
+  },
+  {
+   "id": "audit",
+   "app": "sentinel",
+   "title": "Audit trail",
+   "hi": "ऑडिट ट्रेल",
+   "summary": "Who did what and when — every review, escalation, renewal decision, draw, message and export. Rows are SHA-256 hash-chained and re-verified in your browser, so an edited or deleted record is detected.",
+   "category": "assessment",
+   "aliases": [
+    "Audit log",
+    "Activity log",
+    "History",
+    "Logs"
+   ],
+   "keywords": [
+    "audit",
+    "log",
+    "history",
+    "who did",
+    "activity",
+    "record",
+    "trail",
+    "ऑडिट",
+    "इतिहास",
+    "hash chain"
+   ],
+   "route": "/audit",
+   "roles": "deciders"
+  },
+  {
+   "id": "draw",
+   "app": "sentinel",
+   "title": "Assignment draw",
+   "hi": "निरीक्षण आवंटन",
+   "summary": "Surprise inspections: each run of the draw pairs an inspector with an institute using a cryptographic random generator (CSPRNG), weighted toward institutes that haven't been visited in a while, with a fairness window so an inspector isn't sent back to the same place. Every draw has a seed reference as proof.",
+   "category": "action",
+   "aliases": [
+    "Draw",
+    "Random inspection",
+    "Surprise inspection",
+    "Assign inspector",
+    "Assignments",
+    "Lottery"
+   ],
+   "keywords": [
+    "draw",
+    "random",
+    "surprise",
+    "inspection",
+    "assign",
+    "assignment",
+    "lottery",
+    "nirikshan",
+    "निरीक्षण",
+    "आवंटन",
+    "inspector assign"
+   ],
+   "route": "/assignments",
+   "roles": "deciders"
+  },
+  {
+   "id": "grievances",
+   "app": "sentinel",
+   "title": "Grievances",
+   "hi": "शिकायतें",
+   "summary": "Complaints raised in Setu by institute staff and beneficiaries, each on a clock: first response within 3 days, resolution within 21 days of reaching its current level. Breached ones can be escalated L1 → L2 → L3 (District → State → Ministry), one by one or all at once.",
+   "category": "action",
+   "aliases": [
+    "Complaints",
+    "SLA",
+    "Grievance escalation"
+   ],
+   "keywords": [
+    "grievance",
+    "complaint",
+    "shikayat",
+    "sla",
+    "escalate grievance",
+    "breached",
+    "शिकायत",
+    "समय-सीमा",
+    "shikayat"
+   ],
+   "route": "/grievances",
+   "roles": "deciders"
+  },
+  {
+   "id": "renewals",
+   "app": "sentinel",
+   "title": "Renewals",
+   "hi": "नवीनीकरण",
+   "summary": "Registration renewals awaiting a decision, separated from those already decided. Approve or reject (rejecting asks for confirmation), with the institute's score and status alongside.",
+   "category": "action",
+   "aliases": [
+    "Registration renewal",
+    "Approve renewal",
+    "License renewal"
+   ],
+   "keywords": [
+    "renewal",
+    "renew",
+    "registration",
+    "approve",
+    "reject",
+    "license",
+    "navinikaran",
+    "नवीनीकरण",
+    "मंज़ूरी"
+   ],
+   "route": "/renewals",
+   "roles": "deciders"
+  },
+  {
+   "id": "inspectors",
+   "app": "sentinel",
+   "title": "Inspectors",
+   "hi": "निरीक्षक",
+   "summary": "The field team for your region: who is assigned to which sites, whether they're available, on site or offline, unread replies and the last message with each.",
+   "category": "communication",
+   "aliases": [
+    "Field team",
+    "Inspector list"
+   ],
+   "keywords": [
+    "inspectors",
+    "field team",
+    "inspector list",
+    "who is assigned",
+    "nirikshak",
+    "निरीक्षक",
+    "staff on field",
+    "nirikshak"
+   ],
+   "route": "/inspectors",
+   "roles": "deciders"
+  },
+  {
+   "id": "connect-inspector",
+   "app": "sentinel",
+   "title": "Connect with Inspector",
+   "hi": "निरीक्षक से जुड़ें",
+   "summary": "Message the inspector assigned to a site directly from Sentinel: send a message, an instruction or an update request, mark it urgent, pick a quick message, see the full conversation history and delivery/read ticks. Open it from an institute's page (Assigned inspector card), the Inspectors page or the draw. Voice and video calling is planned for later.",
+   "category": "communication",
+   "aliases": [
+    "Message inspector",
+    "Contact inspector",
+    "Chat with inspector",
+    "Talk to inspector"
+   ],
+   "keywords": [
+    "connect",
+    "contact",
+    "message",
+    "chat",
+    "talk",
+    "baat",
+    "baat karni",
+    "sampark",
+    "inspector se",
+    "assigned inspector",
+    "संपर्क",
+    "संदेश",
+    "बात",
+    "inspector se baat"
+   ],
+   "route": "/inspectors",
+   "how": [
+    "Open the institute (Register → the institute) or the Inspectors page",
+    "Press Connect with Inspector",
+    "Type your message, choose Message / Instruction / Update request, and send"
+   ],
+   "roles": "deciders"
+  },
+  {
+   "id": "language-region",
+   "app": "sentinel",
+   "title": "English + Hindi",
+   "hi": "अंग्रेज़ी + हिन्दी",
+   "summary": "Sentinel shows every label in English with Hindi beneath it. The EN | हिन्दी switch in the top strip puts Hindi first. There is no separate language or region picker — data is scoped by your role.",
+   "category": "settings",
+   "aliases": [
+    "Language",
+    "Hindi",
+    "Change language",
+    "Bhasha"
+   ],
+   "keywords": [
+    "language",
+    "bhasha",
+    "hindi",
+    "english",
+    "change language",
+    "translate",
+    "भाषा",
+    "हिन्दी"
+   ]
+  },
+  {
+   "id": "display-mode",
+   "app": "sentinel",
+   "title": "Display mode",
+   "hi": "प्रदर्शन मोड",
+   "summary": "Light (default), Dark, or High contrast (black, white and yellow, no transparency or motion). Switch from the sun/moon/contrast buttons at the top, the account menu, or press Shift+T.",
+   "category": "settings",
+   "aliases": [
+    "Dark mode",
+    "Light mode",
+    "High contrast",
+    "Theme",
+    "Night mode"
+   ],
+   "keywords": [
+    "dark",
+    "light",
+    "theme",
+    "contrast",
+    "night",
+    "mode",
+    "गहरा",
+    "डार्क"
+   ]
+  },
+  {
+   "id": "text-size",
+   "app": "sentinel",
+   "title": "Text size",
+   "hi": "अक्षर आकार",
+   "summary": "A−, A and A+ at the top right scale the whole dashboard, as on every government portal (GIGW).",
+   "category": "settings",
+   "aliases": [
+    "Font size",
+    "Bigger text",
+    "Zoom"
+   ],
+   "keywords": [
+    "text size",
+    "font",
+    "bigger",
+    "smaller",
+    "zoom",
+    "अक्षर"
+   ]
+  },
+  {
+   "id": "shortcuts",
+   "app": "sentinel",
+   "title": "Keyboard shortcuts",
+   "hi": "कीबोर्ड शॉर्टकट",
+   "summary": "Press ? to see them all. g then a letter goes to a page (g a Alerts, g c Cameras, g i Inspectors…), / jumps to search, y opens Yukt.",
+   "category": "help",
+   "aliases": [
+    "Shortcuts",
+    "Hotkeys"
+   ],
+   "keywords": [
+    "keyboard",
+    "shortcut",
+    "hotkey",
+    "keys",
+    "शॉर्टकट"
+   ],
+   "route": "/accessibility"
+  },
+  {
+   "id": "accessibility",
+   "app": "sentinel",
+   "title": "Accessibility",
+   "hi": "सुगम्यता",
+   "summary": "Built to follow GIGW 3.0 and WCAG 2.1 AA: screen reader support, full keyboard use, high contrast, text resizing, status always shown as a word and not only a colour, table views for charts.",
+   "category": "help",
+   "aliases": [
+    "Screen reader",
+    "Accessibility statement"
+   ],
+   "keywords": [
+    "accessibility",
+    "screen reader",
+    "blind",
+    "disability",
+    "gigw",
+    "wcag",
+    "सुगम्यता"
+   ],
+   "route": "/accessibility"
+  },
+  {
+   "id": "filters",
+   "app": "sentinel",
+   "title": "Filters, sorting and saved views",
+   "hi": "फ़िल्टर और क्रम",
+   "summary": "Every list has one toolbar: quick status tabs, smart search (several words, \"quoted phrase\", -exclude), multi-select filters with counts, score ranges, date ranges, multi-level sort, grouping, saved views and CSV export.",
+   "category": "help",
+   "aliases": [
+    "Filter",
+    "Sort",
+    "Search",
+    "Saved views",
+    "Export CSV"
+   ],
+   "keywords": [
+    "filter",
+    "sort",
+    "search",
+    "group",
+    "saved view",
+    "export",
+    "csv",
+    "फ़िल्टर",
+    "खोज"
+   ]
+  },
+  {
+   "id": "ticker",
+   "app": "sentinel",
+   "title": "Live ticker",
+   "hi": "लाइव पट्टी",
+   "summary": "The running strip under the menu shows live updates — critical alerts, compliance, cameras offline — and each item opens the page behind it. Hover or press pause to stop it.",
+   "category": "monitoring",
+   "aliases": [
+    "Live updates",
+    "Billboard",
+    "News strip"
+   ],
+   "keywords": [
+    "ticker",
+    "live",
+    "running",
+    "billboard",
+    "updates",
+    "ताज़ा"
+   ]
+  },
+  {
+   "id": "yukt",
+   "app": "sentinel",
+   "title": "Yukt",
+   "hi": "युक्त",
+   "summary": "Yukt is Sentinel's built-in AI assistant. It answers from live dashboard data and from its knowledge of Sentinel, Setu and Nayan, finds features, explains pages, takes actions after you confirm (escalate, resolve, report, theme), and replies in 22 Indian languages.",
+   "category": "help",
+   "aliases": [
+    "Assistant",
+    "AI"
+   ],
+   "keywords": [
+    "yukt",
+    "assistant",
+    "ai",
+    "chatbot",
+    "bot",
+    "help",
+    "युक्त",
+    "सहायक",
+    "chatbot",
+    "help bot"
+   ]
+  },
+  {
+   "id": "setu-about",
+   "app": "setu",
+   "title": "About Setu",
+   "hi": "Setu क्या है",
+   "summary": "Setu is the web dashboard (a website, like Sentinel) for institutes and beneficiaries. Institute staff see their own institute's compliance score and findings and respond to them; beneficiaries and staff raise grievances, which officials then handle in Sentinel.",
+   "category": "about",
+   "aliases": [
+    "Setu",
+    "Setu app",
+    "Institute app",
+    "Beneficiary app"
+   ],
+   "keywords": [
+    "setu",
+    "institute app",
+    "beneficiary",
+    "staff app",
+    "सेतु"
+   ]
+  },
+  {
+   "id": "setu-raise-grievance",
+   "app": "setu",
+   "title": "Raise a grievance",
+   "hi": "शिकायत दर्ज करें",
+   "summary": "Institute staff and beneficiaries file a grievance in Setu (subject and description). It appears in Sentinel's Grievances page with its response clock.",
+   "category": "institute",
+   "aliases": [
+    "File complaint",
+    "Submit grievance"
+   ],
+   "keywords": [
+    "raise grievance",
+    "file complaint",
+    "submit complaint",
+    "new complaint",
+    "shikayat darj",
+    "complaint karna",
+    "शिकायत दर्ज",
+    "complaint register karna"
+   ]
+  },
+  {
+   "id": "setu-compliance",
+   "app": "setu",
+   "title": "Institute's own compliance score",
+   "hi": "संस्था का अपना अनुपालन स्कोर",
+   "summary": "An institute sees its own compliance score, status and the findings behind it in Setu — never another institute's.",
+   "category": "institute",
+   "aliases": [
+    "My score",
+    "Institute score",
+    "My institute"
+   ],
+   "keywords": [
+    "my score",
+    "own score",
+    "institute sees",
+    "my institute",
+    "hamara score",
+    "apna score"
+   ]
+  },
+  {
+   "id": "setu-respond",
+   "app": "setu",
+   "title": "Respond to findings",
+   "hi": "निष्कर्षों का जवाब",
+   "summary": "Institutes answer inspection findings and alerts from Setu, attaching documents as evidence of corrective action.",
+   "category": "institute",
+   "aliases": [
+    "Reply to finding",
+    "Corrective action",
+    "Respond to alert"
+   ],
+   "keywords": [
+    "respond",
+    "reply",
+    "finding",
+    "corrective",
+    "action taken",
+    "jawab"
+   ]
+  },
+  {
+   "id": "setu-documents",
+   "app": "setu",
+   "title": "Upload documents",
+   "hi": "दस्तावेज़ अपलोड",
+   "summary": "Institutes upload documents (for renewals and corrective actions) in Setu; officials read them on the institute's page in Sentinel.",
+   "category": "institute",
+   "aliases": [
+    "Upload document",
+    "Documents",
+    "Registration documents",
+    "File upload"
+   ],
+   "keywords": [
+    "upload",
+    "document",
+    "documents",
+    "certificate",
+    "file",
+    "dastavez",
+    "दस्तावेज़"
+   ]
+  },
+  {
+   "id": "setu-track-grievance",
+   "app": "setu",
+   "title": "Track grievance status",
+   "hi": "शिकायत की स्थिति",
+   "summary": "The person who raised a grievance follows its status (open, in review, resolved) in Setu.",
+   "category": "institute",
+   "aliases": [
+    "Grievance status",
+    "Complaint status"
+   ],
+   "keywords": [
+    "track",
+    "status of my complaint",
+    "my grievance",
+    "kya hua complaint"
+   ]
+  },
+  {
+   "id": "setu-renewal-apply",
+   "app": "setu",
+   "title": "Apply for registration renewal",
+   "hi": "नवीनीकरण के लिए आवेदन",
+   "summary": "Institutes apply for renewal and submit supporting documents in Setu; the decision is made by officials in Sentinel's Renewals page.",
+   "category": "institute",
+   "aliases": [
+    "Renewal application",
+    "Apply renewal"
+   ],
+   "keywords": [
+    "apply renewal",
+    "renewal application",
+    "submit renewal",
+    "aavedan"
+   ]
+  },
+  {
+   "id": "nayan-about",
+   "app": "nayan",
+   "title": "About Nayan",
+   "hi": "Nayan क्या है",
+   "summary": "Nayan is the inspectors' mobile app (Android, Play Store). Inspectors receive their assignments from the draw, check in at the site, capture sealed evidence, file inspection reports and receive officials' messages. Inspectors don't sign in to Sentinel.",
+   "category": "about",
+   "aliases": [
+    "Nayan",
+    "Nayan app",
+    "Inspector app",
+    "Field app"
+   ],
+   "keywords": [
+    "nayan",
+    "inspector app",
+    "field app",
+    "mobile app",
+    "नयन"
+   ]
+  },
+  {
+   "id": "nayan-assignments",
+   "app": "nayan",
+   "title": "Assigned inspections",
+   "hi": "आवंटित निरीक्षण",
+   "summary": "Inspectors see the inspections the draw assigned to them, with dispatch time and site, in Nayan.",
+   "category": "field",
+   "aliases": [
+    "My inspections",
+    "Inspection list",
+    "Today's visits"
+   ],
+   "keywords": [
+    "my inspections",
+    "assigned to me",
+    "visit list",
+    "inspection schedule"
+   ]
+  },
+  {
+   "id": "nayan-evidence",
+   "app": "nayan",
+   "title": "Capture evidence",
+   "hi": "साक्ष्य लेना",
+   "summary": "Photos and video are captured in Nayan with GPS and device ID; a SHA-256 hash is computed on the device and re-verified on the server, so evidence can't be swapped.",
+   "category": "field",
+   "aliases": [
+    "Take photo",
+    "Upload evidence",
+    "Photo evidence",
+    "Video evidence"
+   ],
+   "keywords": [
+    "photo",
+    "evidence",
+    "capture",
+    "upload photo",
+    "picture",
+    "video",
+    "hash",
+    "sabut",
+    "साक्ष्य",
+    "फ़ोटो"
+   ]
+  },
+  {
+   "id": "nayan-checkin",
+   "app": "nayan",
+   "title": "Geofence check-in",
+   "hi": "स्थल पर चेक-इन",
+   "summary": "Nayan confirms the inspector is physically at the institute (geofence) when the inspection starts.",
+   "category": "field",
+   "aliases": [
+    "Check in",
+    "Location check",
+    "Geofence"
+   ],
+   "keywords": [
+    "check in",
+    "geofence",
+    "reached site",
+    "location verify",
+    "gps"
+   ]
+  },
+  {
+   "id": "nayan-report",
+   "app": "nayan",
+   "title": "File inspection report",
+   "hi": "निरीक्षण रिपोर्ट",
+   "summary": "Inspectors complete the checklist and file the inspection report from Nayan; it feeds the institute's record in Sentinel.",
+   "category": "field",
+   "aliases": [
+    "Inspection report",
+    "Checklist",
+    "Submit report"
+   ],
+   "keywords": [
+    "inspection report",
+    "checklist",
+    "submit report",
+    "file report",
+    "visit report"
+   ]
+  },
+  {
+   "id": "nayan-messages",
+   "app": "nayan",
+   "title": "Messages from officials",
+   "hi": "अधिकारियों के संदेश",
+   "summary": "Messages officials send through Connect with Inspector arrive in Nayan; the inspector replies from the field and delivery/read status flows back to Sentinel.",
+   "category": "field",
+   "aliases": [
+    "Inspector inbox",
+    "Reply to official"
+   ],
+   "keywords": [
+    "inspector reply",
+    "inbox",
+    "receive message",
+    "field message"
+   ]
+  },
+  {
+   "id": "nayan-calls",
+   "app": "nayan",
+   "title": "Voice and video calls",
+   "hi": "वॉइस और वीडियो कॉल",
+   "summary": "Voice and video calling with inspectors is planned for later. For now, messaging is how officials reach inspectors from Sentinel.",
+   "category": "field",
+   "aliases": [
+    "Call inspector",
+    "Video call",
+    "Phone call"
+   ],
+   "keywords": [
+    "call",
+    "video call",
+    "phone",
+    "voice",
+    "ring",
+    "कॉल"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+name: nayan
+description: "Nayan · नयन — real-time monitoring, CCTV, random VC, random inspection assignment and geo-tagged inspections for DoSJE (DOSJE NIGRANI)."
+publish_to: "none"
+version: 2.0.0+2
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  audioplayers: ^6.1.0
+  crypto: ^3.0.3
+  flutter_map: ^8.1.0
+  geolocator: ">=13.0.1 <15.0.0"
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  latlong2: ^0.9.1
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  record: ^6.0.0
+  shared_preferences: ^2.3.2
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ">=4.0.0 <7.0.0"
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#3F5A45"
+  adaptive_icon_foreground: "assets/icon/icon_fg.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#3F5A45"
+    theme_color: "#3F5A45"

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>DoSJE Nigrani</title>
+<script>
+  // GitHub Pages has no server-side routing: a reload inside Sentinel or Setu
+  // (e.g. /Nayan/sentinel/alerts) lands here. Both apps start at sign-in on a
+  // fresh load anyway, so send the visitor to that app's start page.
+  (function () {
+    var p = location.pathname, m = p.match(/^(.*?\/(sentinel|setu|home))(\/|$)/);
+    var base = p.split("/").slice(0, 2).join("/") + "/";
+    location.replace(m ? m[1] + "/" : base);
+  })();
+</script></head><body></body></html>

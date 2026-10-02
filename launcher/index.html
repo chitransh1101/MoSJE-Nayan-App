@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DoSJE Nigrani — Home</title>
+<style>
+  :root {
+    --bg: #F3F0E7; --card: #FBFAF6; --line: #E3DED1; --ink: #1b1f2a; --muted: #6a6f7d;
+    --sage: #4F7A5B; --sage-soft: #E3EDE4; --navy: #1F3A5F; --navy-soft: #E1E8F2;
+    --amber: #B7791F; --amber-soft: #F7EBD3; --good: #2E7D4F; --wait: #B7791F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171d; --card: #1c2029; --line: #2b313d; --ink: #eceae4; --muted: #a2a7b3;
+      --sage: #8FC19C; --sage-soft: #1f2d24; --navy: #9DB8DE; --navy-soft: #1c2636;
+      --amber: #E0B062; --amber-soft: #30281a; --good: #6FCF97; --wait: #E0B062;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .flag { height: 4px; background: linear-gradient(90deg, #FF9933 33.3%, #fff 33.3% 66.6%, #138808 66.6%); }
+  main { max-width: 1040px; margin: 0 auto; padding: 40px 16px 56px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; letter-spacing: .02em; }
+  h1 { font-family: Georgia, serif; font-weight: 600; font-size: 30px; margin: 4px 0 6px; }
+  .lede { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px;
+          display: flex; flex-direction: column; gap: 12px; }
+  .top { display: flex; align-items: center; gap: 12px; }
+  .mark { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+          font-weight: 700; font-size: 17px; flex: none; }
+  .sentinel .mark { background: var(--navy-soft); color: var(--navy); }
+  .setu .mark { background: var(--sage-soft); color: var(--sage); }
+  .nayan .mark { background: var(--amber-soft); color: var(--amber); }
+  .api .mark { background: var(--line); color: var(--ink); }
+  h2 { margin: 0; font-size: 18px; }
+  .who { margin: 0; color: var(--muted); font-size: 13px; }
+  .status { margin-left: auto; font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wait); }
+  [data-state="up"] .dot { background: var(--good); }
+  [data-state="up"] .label { color: var(--good); }
+  .open { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 16px;
+          border-radius: 10px; font-weight: 600; text-decoration: none; color: #fff; }
+  .sentinel .open { background: #1F3A5F; }
+  .setu .open { background: #3F6B4B; }
+  .nayan .open { background: #8A5A12; }
+  .api .open { background: #343a4a; }
+  .api .open.repo { background: #24292f; }
+  .open:hover { filter: brightness(1.12); }
+  .open:focus-visible, .copy:focus-visible, .ghost:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .ghost { color: var(--ink); text-decoration: none; font-size: 13px; padding: 8px 12px; border: 1px solid var(--line);
+           border-radius: 10px; text-align: center; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .row > * { flex: 1; }
+  .accounts { margin: 0; padding: 0; list-style: none; font-size: 13px; border-top: 1px solid var(--line); }
+  .accounts li { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .accounts .role { color: var(--muted); width: 92px; flex: none; }
+  .accounts code { font: 12.5px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; word-break: normal; flex: 1; min-width: 0; }
+  .copy { font-size: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink);
+          border-radius: 8px; padding: 4px 9px; cursor: pointer; }
+  .note { margin-top: 28px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+          font-size: 13.5px; color: var(--muted); }
+  .note strong { color: var(--ink); }
+  .note code { font: 12.5px ui-monospace, Consolas, monospace; color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="flag" aria-hidden="true"></div>
+<main>
+  <header>
+    <p>Ministry of Social Justice &amp; Empowerment · DoSJE Nigrani</p>
+    <h1>Home</h1>
+    <p class="lede">Every part of the system in one place. Bookmark this page — it's all you need. All demo accounts use the password <strong>Password123!</strong></p>
+  </header>
+
+  <div class="grid">
+    <section class="card sentinel">
+      <div class="top">
+        <div class="mark" aria-hidden="true">S</div>
+        <div><h2>Sentinel</h2><p class="who">Officials — watch &amp; decide</p></div>
+        <span class="status" data-status="sentinel"><span class="dot"></span><span class="label">Checking…</span></span>
+      </div>
+      <a class="open" href="http://localhost:5173" data-desktop-href="/sentinel/" target="_blank" rel="noopener">Open Sentinel ↗</a>
+      <ul class="accounts">
+        <li><span class="role">Official</span><code>official@dosje.gov.in</code><button class="copy" data-copy="official@dosje.gov.in">Copy</button></li>
+        <li><span class="role">Admin</span><code>admin@dosje.gov.in</code><button class="copy" data-copy="admin@dosje.gov.in">Copy</button></li>
+        <li><span class="role">District</span><code>district@dosje.gov.in</code><button class="copy" data-copy="district@dosje.gov.in">Copy</button></li>
+      </ul>
+    </section>
+
+    <section class="card setu">
+      <div class="top">
+        <div class="mark" aria-hidden="true">से</div>
+        <div><h2>Setu</h2><p class="who">Institutes &amp; beneficiaries</p></div>
+        <span class="status" data-status="setu"><span class="dot"></span><span class="label">Checking…</span></span>
+      </div>
+      <a class="open" href="http://localhost:5174" data-desktop-href="/setu/" target="_blank" rel="noopener">Open Setu ↗</a>
+      <ul class="accounts">
+        <li><span class="role">Institute</span><code>staff@dosje.gov.in</code><button class="copy" data-copy="staff@dosje.gov.in">Copy</button></li>
+        <li><span class="role">Beneficiary</span><code>beneficiary@dosje.gov.in</code><button class="copy" data-copy="beneficiary@dosje.gov.in">Copy</button></li>
+      </ul>
+    </section>
+
+    <section class="card nayan">
+      <div class="top">
+        <div class="mark" aria-hidden="true">न</div>
+        <div><h2>Nayan</h2><p class="who">Inspectors — the phone app</p></div>
+      </div>
+      <a class="open" href="https://chitransh1101.github.io/Nayan/" data-pages="" target="_blank" rel="noopener">Open Nayan (web) ↗</a>
+      <div class="row">
+        <a class="ghost" href="https://github.com/chitransh1101/Nayan/releases/latest" data-repo="/releases/latest" target="_blank" rel="noopener">Android APK ↗</a>
+      </div>
+      <ul class="accounts">
+        <li><span class="role">Inspector</span><code>inspector1@dosje.gov.in</code><button class="copy" data-copy="inspector1@dosje.gov.in">Copy</button></li>
+        <li><span class="role">Official</span><code>official@dosje.gov.in</code><button class="copy" data-copy="official@dosje.gov.in">Copy</button></li>
+      </ul>
+    </section>
+
+    <section class="card api">
+      <div class="top">
+        <div class="mark" aria-hidden="true">{ }</div>
+        <div><h2>Backend</h2><p class="who">The API all three apps share</p></div>
+        <span class="status" data-status="api"><span class="dot"></span><span class="label">Checking…</span></span>
+      </div>
+      <div class="row">
+        <a class="open" href="http://localhost:8000/docs" data-desktop-href="/docs" target="_blank" rel="noopener">API docs ↗</a>
+        <a class="open repo" href="https://github.com/chitransh1101/Nayan" data-repo="" target="_blank" rel="noopener">View GitHub repo ↗</a>
+      </div>
+      <ul class="accounts">
+        <li><span class="role">Nayan server</span><code>http://&lt;your-PC-IP&gt;:8000/api/v1</code></li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="note">
+    <strong>Good to know.</strong> Refreshing Sentinel or Setu takes you back to sign-in, and 15 minutes idle signs you out — that's the security working.
+    Just after starting, a dot may say “Starting…” for about 30 seconds while the backend prepares the database.
+    To connect the Nayan app on a phone, put your computer's Wi-Fi address (run <code>ipconfig</code>, “IPv4 Address”) in Nayan's server setting.
+  </div>
+</main>
+<script src="status.js"></script>
+<script src="site-config.js"></script>
+</body>
+</html>

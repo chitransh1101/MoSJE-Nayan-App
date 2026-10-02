@@ -1,0 +1,9 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+html, body, #root { height: 100%; }
+body { font-family: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif; color: #1b1f2a; background: #F3F0E7; -webkit-font-smoothing: antialiased; }
+.card { @apply rounded-lg border border-paper-line bg-paper-raised; }
+.tnum { font-variant-numeric: tabular-nums; }
+.scroll-area { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.2) transparent; }
+.leaflet-container { font: inherit; }
+.leaflet-popup-content { margin: 0; }
+.leaflet-popup-content-wrapper { border-radius: 10px; padding: 0; }

@@ -1,0 +1,28 @@
+name: Web apps (Sentinel, Setu)
+
+on:
+  push:
+    branches: [main]
+    paths: ["sentinel/**", "setu/**", ".github/workflows/web.yml"]
+  pull_request:
+    paths: ["sentinel/**", "setu/**"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [sentinel, setu]
+    defaults:
+      run: {working-directory: "${{ matrix.app }}"}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-dist
+          path: ${{ matrix.app }}/dist
