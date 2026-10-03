@@ -3,163 +3,190 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DoSJE Nigrani — Live demo</title>
+<title>Nayan — Live demo</title>
 <style>
   :root {
     --bg: #F3F0E7; --card: #FBFAF6; --line: #E3DED1; --ink: #1b1f2a; --muted: #6a6f7d;
     --sage: #4F7A5B; --sage-soft: #E3EDE4; --navy: #1F3A5F; --navy-soft: #E1E8F2;
-    --amber: #B7791F; --amber-soft: #F7EBD3; --good: #2E7D4F; --wait: #B7791F;
+    --amber: #8A5A12; --amber-soft: #F7EBD3; --hero: #2F4A37; --hero-2: #3F5A45;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #14171d; --card: #1c2029; --line: #2b313d; --ink: #eceae4; --muted: #a2a7b3;
       --sage: #8FC19C; --sage-soft: #1f2d24; --navy: #9DB8DE; --navy-soft: #1c2636;
-      --amber: #E0B062; --amber-soft: #30281a; --good: #6FCF97; --wait: #E0B062;
+      --amber: #E0B062; --amber-soft: #30281a; --hero: #22352a; --hero-2: #2c4334;
     }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 15px/1.5 "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
   .flag { height: 4px; background: linear-gradient(90deg, #FF9933 33.3%, #fff 33.3% 66.6%, #138808 66.6%); }
-  main { max-width: 1040px; margin: 0 auto; padding: 40px 16px 56px; }
-  header p { margin: 0; color: var(--muted); font-size: 13px; letter-spacing: .02em; }
-  h1 { font-family: Georgia, serif; font-weight: 600; font-size: 30px; margin: 4px 0 6px; }
-  .lede { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px;
-          display: flex; flex-direction: column; gap: 12px; }
-  .top { display: flex; align-items: center; gap: 12px; }
-  .mark { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
-          font-weight: 700; font-size: 17px; flex: none; }
-  .sentinel .mark { background: var(--navy-soft); color: var(--navy); }
-  .setu .mark { background: var(--sage-soft); color: var(--sage); }
-  .nayan .mark { background: var(--amber-soft); color: var(--amber); }
-  .api .mark { background: var(--line); color: var(--ink); }
-  h2 { margin: 0; font-size: 18px; }
-  .who { margin: 0; color: var(--muted); font-size: 13px; }
-  .status { margin-left: auto; font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wait); }
-  [data-state="up"] .dot { background: var(--good); }
-  [data-state="up"] .label { color: var(--good); }
-  .open { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 16px;
-          border-radius: 10px; font-weight: 600; text-decoration: none; color: #fff; }
-  .sentinel .open { background: #1F3A5F; }
-  .setu .open { background: #3F6B4B; }
-  .nayan .open { background: #8A5A12; }
-  .api .open { background: #343a4a; }
-  .api .open.repo { background: #24292f; }
-  .open:hover { filter: brightness(1.12); }
-  .open:focus-visible, .copy:focus-visible, .ghost:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
-  .ghost { color: var(--ink); text-decoration: none; font-size: 13px; padding: 8px 12px; border: 1px solid var(--line);
-           border-radius: 10px; text-align: center; }
-  .row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .row > * { flex: 1; }
-  .accounts { margin: 0; padding: 0; list-style: none; font-size: 13px; border-top: 1px solid var(--line); }
-  .accounts li { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line); }
-  .accounts .role { color: var(--muted); width: 92px; flex: none; }
-  .accounts code { font: 12.5px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; word-break: normal; flex: 1; min-width: 0; }
-  .copy { font-size: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink);
-          border-radius: 8px; padding: 4px 9px; cursor: pointer; }
-  .note { margin-top: 28px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-          font-size: 13.5px; color: var(--muted); }
-  .note strong { color: var(--ink); }
-  .note code { font: 12.5px ui-monospace, Consolas, monospace; color: var(--ink); }
+  main { max-width: 1120px; margin: 0 auto; padding: 16px 16px 40px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  header p { margin: 0; color: var(--muted); font-size: 13px; }
+  h1 { font-family: Georgia, serif; font-weight: 600; font-size: 24px; margin: 0; }
+  a { color: inherit; }
+  code { font: 12.5px ui-monospace, Consolas, monospace; }
 
-  #backend { margin-top: 28px; }
-  #backend h2 { font-family: Georgia, serif; font-size: 22px; margin: 0 0 6px; }
-  #backend .sub { color: var(--muted); margin: 0 0 16px; max-width: 70ch; }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin-bottom: 18px; }
-  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
-  .fact b { display: block; font-size: 20px; color: var(--navy); }
+  /* Level 1 — Nayan */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px;
+           background: linear-gradient(135deg, var(--hero) 0%, var(--hero-2) 100%); color: #fff;
+           border-radius: 18px; padding: 18px 20px; }
+  .badge { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 3px 10px; }
+  .hero h2 { margin: 8px 0 0; font-size: 30px; line-height: 1.15; }
+  .hero h2 span { font-weight: 500; opacity: .8; font-size: 20px; }
+  .hero .lead { margin: 4px 0 10px; color: rgba(255,255,255,.82); max-width: 52ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; padding: 0; list-style: none; }
+  .chips li { font-size: 12px; background: rgba(255,255,255,.1); border-radius: 8px; padding: 3px 8px; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: 10px;
+          font-weight: 700; text-decoration: none; }
+  .btn.primary { background: #F4C46A; color: #2a1e05; }
+  .btn.light { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:focus-visible, .copy:focus-visible, .portal a:focus-visible, summary:focus-visible { outline: 3px solid #F4C46A; outline-offset: 2px; }
+  .accounts { background: rgba(0,0,0,.18); border-radius: 12px; padding: 12px 14px; align-self: start; }
+  .accounts h3 { margin: 0 0 6px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); }
+  .accounts ul { margin: 0; padding: 0; list-style: none; font-size: 13px; }
+  .accounts li { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .accounts li:last-child { border-bottom: 0; }
+  .accounts .role { width: 104px; flex: none; color: rgba(255,255,255,.7); }
+  .accounts code { flex: 1; min-width: 0; overflow-wrap: anywhere; color: #fff; }
+  .copy { font-size: 12px; border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; border-radius: 8px; padding: 3px 9px; cursor: pointer; }
+  .accounts .pw { margin: 8px 0 0; font-size: 12.5px; color: rgba(255,255,255,.75); }
+
+  /* Level 2 — supporting components */
+  .level2 { margin-top: 14px; }
+  .level2 h2 { margin: 0 0 4px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .level2 .sub { margin: 0 0 8px; color: var(--muted); font-size: 13.5px; }
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .portal { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 7px; }
+  .portal .top { display: flex; align-items: center; gap: 10px; }
+  .mark { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-weight: 700; flex: none; }
+  .s .mark { background: var(--navy-soft); color: var(--navy); }
+  .u .mark { background: var(--sage-soft); color: var(--sage); }
+  .b .mark, .g .mark { background: var(--line); color: var(--ink); }
+  .portal h3 { margin: 0; font-size: 16px; }
+  .portal .kind { margin: 0; font-size: 12px; color: var(--muted); }
+  .portal p.desc { margin: 0; font-size: 13px; color: var(--muted); flex: 1; }
+  .portal a.go { display: block; text-align: center; text-decoration: none; font-weight: 600; font-size: 13.5px; padding: 8px 10px; border-radius: 9px; color: #fff; }
+  .s a.go { background: #1F3A5F; } .u a.go { background: #3F6B4B; } .b a.go { background: #343a4a; } .g a.go { background: #24292f; display: flex; gap: 8px; justify-content: center; align-items: center; }
+  .portal .small { font-size: 12px; color: var(--muted); }
+  .portal .small a { color: var(--muted); }
+
+  .note { margin-top: 12px; padding: 12px 14px; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--sage);
+           border-radius: 12px; font-size: 13px; color: var(--muted); }
+  .note strong { color: var(--ink); }
+
+  /* Backend detail, folded away */
+  details.more { margin-top: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  details.more > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; padding: 12px 14px; font-weight: 600; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more[open] .chev { transform: rotate(180deg); }
+  .more-body { padding: 0 14px 14px; }
+  .more-body .sub { color: var(--muted); margin: 0 0 12px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .fact { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .fact b { display: block; font-size: 19px; color: var(--navy); }
   .fact span { color: var(--muted); font-size: 13px; }
-  .built { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-bottom: 16px; }
-  .built h3 { margin: 0 0 8px; font-size: 15px; }
+  .built { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; }
+  .built h3 { margin: 0 0 6px; font-size: 15px; }
   .built ul { margin: 0; padding-left: 18px; } .built li { margin: 3px 0; }
-  #backend details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 6px 0; padding: 8px 14px; }
-  #backend summary { cursor: pointer; } .cnt { color: var(--muted); font-size: 12px; margin-left: 8px; }
-  #backend table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 13px; }
-  #backend td { padding: 4px 6px; border-top: 1px solid var(--line); vertical-align: top; }
+  .more-body details { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; margin: 6px 0; padding: 8px 14px; }
+  .more-body summary { cursor: pointer; } .cnt { color: var(--muted); font-size: 12px; margin-left: 8px; }
+  .more-body table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 13px; }
+  .more-body td { padding: 4px 6px; border-top: 1px solid var(--line); vertical-align: top; }
   .m { display: inline-block; min-width: 46px; text-align: center; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 6px; background: var(--navy-soft); color: var(--navy); }
   .m.post { background: var(--sage-soft); color: var(--sage); } .m.patch, .m.put { background: var(--amber-soft); color: var(--amber); } .m.delete { background: #f6dcd8; color: #a33a2c; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero h2 { font-size: 25px; }
+    .accounts .role { width: 78px; font-size: 12px; }
+    .accounts code { font-size: 11.5px; overflow-wrap: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
 </style>
 </head>
 <body>
 <div class="flag" aria-hidden="true"></div>
 <main>
   <header>
-    <p>Ministry of Social Justice &amp; Empowerment · DoSJE Nigrani</p>
     <h1>Live demo</h1>
-    <p class="lede">Smart real-time monitoring &amp; inspection for institutes under DoSJE schemes — three apps on one backend. This online demo runs on built-in sample data; sign in with any account below, password <strong>Password123!</strong></p>
+    <p>DoSJE Nigrani · Smart monitoring &amp; inspection for projects, institutes and NGOs under DoSJE schemes</p>
   </header>
 
-  <div class="grid">
-    <section class="card sentinel">
-      <div class="top">
-        <div class="mark" aria-hidden="true">S</div>
-        <div><h2>Sentinel</h2><p class="who">Officials — watch &amp; decide</p></div>
-      </div>
-      <a class="open" href="../sentinel/" target="_blank" rel="noopener">Open Sentinel ↗</a>
-      <ul class="accounts">
-        <li><span class="role">Official</span><code>official@dosje.gov.in</code><button class="copy" data-copy="official@dosje.gov.in">Copy</button></li>
-        <li><span class="role">Admin</span><code>admin@dosje.gov.in</code><button class="copy" data-copy="admin@dosje.gov.in">Copy</button></li>
-        <li><span class="role">District</span><code>district@dosje.gov.in</code><button class="copy" data-copy="district@dosje.gov.in">Copy</button></li>
+  <!-- Level 1: the centralized application -->
+  <section class="hero" aria-labelledby="nayan">
+    <div>
+      <span class="badge">Centralized mobile application</span>
+      <h2 id="nayan">Nayan <span>· नयन</span></h2>
+      <p class="lead">One app for every stakeholder — real-time monitoring, surprise inspections, live CCTV, random video calls, random inspection assignment and geo-tagged evidence.</p>
+      <ul class="chips" aria-label="Who uses Nayan">
+        <li>DoSJE officials</li><li>State &amp; district authorities</li><li>PMU / inspection teams</li><li>Projects, institutes &amp; NGOs</li><li>Beneficiaries</li>
       </ul>
-    </section>
-
-    <section class="card setu">
-      <div class="top">
-        <div class="mark" aria-hidden="true">से</div>
-        <div><h2>Setu</h2><p class="who">Institutes &amp; beneficiaries</p></div>
+      <div class="cta">
+        <a class="btn primary" href="../" data-pages="" target="_blank" rel="noopener">Open Nayan ↗</a>
+        <a class="btn light" href="https://github.com/chitransh1101/MoSJE-Nayan-App/releases/latest" data-repo="/releases/latest" target="_blank" rel="noopener">Download Nayan (Android) ↓</a>
       </div>
-      <a class="open" href="../setu/" target="_blank" rel="noopener">Open Setu ↗</a>
-      <ul class="accounts">
+    </div>
+    <div class="accounts">
+      <h3>Test accounts — one app, every role</h3>
+      <ul>
+        <li><span class="role">Official</span><code>official@dosje.gov.in</code><button class="copy" data-copy="official@dosje.gov.in">Copy</button></li>
+        <li><span class="role">District</span><code>district@dosje.gov.in</code><button class="copy" data-copy="district@dosje.gov.in">Copy</button></li>
+        <li><span class="role">Inspector</span><code>inspector1@dosje.gov.in</code><button class="copy" data-copy="inspector1@dosje.gov.in">Copy</button></li>
         <li><span class="role">Institute</span><code>staff@dosje.gov.in</code><button class="copy" data-copy="staff@dosje.gov.in">Copy</button></li>
         <li><span class="role">Beneficiary</span><code>beneficiary@dosje.gov.in</code><button class="copy" data-copy="beneficiary@dosje.gov.in">Copy</button></li>
       </ul>
-    </section>
+      <p class="pw">Password for all: <code>Password123!</code></p>
+    </div>
+  </section>
 
-    <section class="card nayan">
-      <div class="top">
-        <div class="mark" aria-hidden="true">न</div>
-        <div><h2>Nayan</h2><p class="who">Inspectors — the phone app</p></div>
-      </div>
-      <a class="open" href="../" target="_blank" rel="noopener">Open Nayan (web) ↗</a>
-      <div class="row">
-        <a class="ghost" href="https://github.com/chitransh1101/Nayan/releases/latest" data-repo="/releases/latest" target="_blank" rel="noopener">Android APK ↗</a>
-      </div>
-      <ul class="accounts">
-        <li><span class="role">Inspector</span><code>inspector1@dosje.gov.in</code><button class="copy" data-copy="inspector1@dosje.gov.in">Copy</button></li>
-        <li><span class="role">Official</span><code>official@dosje.gov.in</code><button class="copy" data-copy="official@dosje.gov.in">Copy</button></li>
-      </ul>
-    </section>
-
-    <section class="card api">
-      <div class="top">
-        <div class="mark" aria-hidden="true">{ }</div>
-        <div><h2>Backend</h2><p class="who">The API all three apps share</p></div>
-      </div>
-      <div class="row">
-        <a class="open" href="../api/" target="_blank" rel="noopener">View Backend API ↗</a>
-        <a class="open repo" href="https://github.com/chitransh1101/Nayan" data-repo="" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View GitHub repo ↗</a>
-      </div>
-      <div class="row">
-        <a class="ghost" href="#backend">How it is built ↓</a>
-      </div>
-      <ul class="accounts">
-        <li><span class="role">Run locally</span><code>docker-compose up -d --build</code></li>
-      </ul>
-    </section>
-  </div>
+  <!-- Level 2: supporting components -->
+  <section class="level2" aria-labelledby="ext">
+    <h2 id="ext">Supporting web portals &amp; infrastructure</h2>
+    <p class="sub">Browser front-ends and services that work with Nayan, on the same backend and the same data.</p>
+    <div class="grid">
+      <article class="portal s">
+        <div class="top"><div class="mark" aria-hidden="true">S</div><div><h3>Sentinel</h3><p class="kind">Monitoring dashboard · web</p></div></div>
+        <p class="desc">Large-screen view for officials: map, alerts, CCTV health and reports.</p>
+        <a class="go" href="../sentinel/" data-pages="sentinel/" target="_blank" rel="noopener">Open Sentinel ↗</a>
+        <span class="small">Sign in: <code>official@dosje.gov.in</code></span>
+      </article>
+      <article class="portal u">
+        <div class="top"><div class="mark" aria-hidden="true">से</div><div><h3>Setu</h3><p class="kind">Institute &amp; resident portal · web</p></div></div>
+        <p class="desc">Findings, documents, grievances and schemes on a browser.</p>
+        <a class="go" href="../setu/" data-pages="setu/" target="_blank" rel="noopener">Open Setu ↗</a>
+        <span class="small">Sign in: <code>staff@dosje.gov.in</code></span>
+      </article>
+      <article class="portal b">
+        <div class="top"><div class="mark" aria-hidden="true">{ }</div><div><h3>Backend</h3><p class="kind">API &amp; database layer</p></div></div>
+        <p class="desc">One API and relational database shared by all three.</p>
+        <a class="go" href="../api/" data-pages="api/" target="_blank" rel="noopener">View Backend API ↗</a>
+        <span class="small"><a href="#backend" id="open-backend">How it is built ↓</a></span>
+      </article>
+      <article class="portal g">
+        <div class="top"><div class="mark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></div><div><h3>GitHub</h3><p class="kind">Source code</p></div></div>
+        <p class="desc">Full source, with automated builds and tests.</p>
+        <a class="go" href="https://github.com/chitransh1101/MoSJE-Nayan-App" data-repo="" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View GitHub repo ↗</a>
+        <span class="small">Every push rebuilds the app &amp; demo</span>
+      </article>
+    </div>
+  </section>
 
   <div class="note">
-    <strong>About this demo.</strong> Everything works on sample data in your browser — nothing you do here is saved to a server.
-    For security, refreshing Sentinel or Setu returns to sign-in and 15 minutes idle signs you out.
-    Nayan installs on a phone: open it, then <em>Add to Home Screen</em> (iPhone/Android), or get the Android APK.
+    <strong>About the data.</strong> This demonstration uses a structured mock dataset because no official production database or API was provided with the problem statement. The architecture is designed to connect to the actual backend database when that data source is available — screens read through the same API layer either way.
   </div>
 
-  <section id="backend">
-    <h2>Backend</h2>
-    <p class="sub">The one FastAPI service that Sentinel, Setu and Nayan all talk to. This page shows how it is built and the full API reference. The demo above runs on sample data in your browser, so there is no hosted API to call here; run the backend locally with Docker to see it live.</p>
+  <details id="backend" class="more">
+    <summary><span>Backend — how it is built &amp; full API reference</span><span class="chev" aria-hidden="true">▾</span></summary>
+    <div class="more-body">
+    <p class="sub">The one FastAPI service that Sentinel, Setu and Nayan all talk to. This page shows how it is built and the full API reference. The online demo uses a structured mock dataset in the browser; run the backend locally with Docker to see the full app → API → database path live.</p>
     <div class="facts">
       <div class="fact"><b>73</b><span>REST endpoints in 18 modules</span></div>
       <div class="fact"><b>23</b><span>database tables, 5 migrations</span></div>
@@ -179,9 +206,14 @@
     </div>
     <h3 style="margin:14px 0 6px;font-size:15px">API reference (73 endpoints)</h3>
     <details><summary><strong>Sign-in, sessions, 2-step</strong> <span class='cnt'>13 endpoints</span></summary><table><tr><td><span class='m post'>POST</span></td><td><code>/auth/change-password</code></td><td>Change Password</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/login</code></td><td>Login</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/logout</code></td><td>Logout</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/logout-others</code></td><td>Logout Others</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/auth/me</code></td><td>Me</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/mfa/disable</code></td><td>Mfa Disable</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/mfa/enable</code></td><td>Mfa Enable</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/mfa/setup</code></td><td>Mfa Setup</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/mfa/verify</code></td><td>Mfa Verify</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/refresh</code></td><td>Refresh</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/auth/register</code></td><td>Register</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/auth/sessions</code></td><td>List Sessions</td></tr><tr><td><span class='m delete'>DELETE</span></td><td><code>/auth/sessions/{session_id}</code></td><td>Revoke Session</td></tr></table></details><details><summary><strong>Institutes</strong> <span class='cnt'>10 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/institutes</code></td><td>List Institutes</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/institutes</code></td><td>Create Institute</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}</code></td><td>Get Institute</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}/alerts</code></td><td>Institute Scoped Alerts</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}/cameras</code></td><td>List Institute Cameras</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/institutes/{institute_id}/documents</code></td><td>Upload Document</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}/documents</code></td><td>List Documents</td></tr><tr><td><span class='m patch'>PATCH</span></td><td><code>/institutes/{institute_id}/renewal</code></td><td>Decide Renewal</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}/residents</code></td><td>Residents</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/institutes/{institute_id}/score</code></td><td>Get Score</td></tr></table></details><details><summary><strong>Video calls (random VC)</strong> <span class='cnt'>9 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/vc/calls</code></td><td>List Calls</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/vc/calls</code></td><td>Log Call</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/vc/calls/me</code></td><td>My Calls</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/vc/calls/requests</code></td><td>Request Call</td></tr><tr><td><span class='m patch'>PATCH</span></td><td><code>/vc/calls/{call_id}</code></td><td>Update Call</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/vc/directory</code></td><td>Directory</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/vc/requests</code></td><td>List Call Requests</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/vc/trigger</code></td><td>Trigger Call</td></tr><tr><td><span class='m patch'>PATCH</span></td><td><code>/vc/{call_id}/status</code></td><td>Update Status</td></tr></table></details><details><summary><strong>Yukt assistant</strong> <span class='cnt'>6 endpoints</span></summary><table><tr><td><span class='m post'>POST</span></td><td><code>/assistant/asr</code></td><td>Asr</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/assistant/chat</code></td><td>Chat</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/assistant/knowledge</code></td><td>Knowledge</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/assistant/status</code></td><td>Status</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/assistant/translate</code></td><td>Translate</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/assistant/tts</code></td><td>Tts</td></tr></table></details><details><summary><strong>Alerts</strong> <span class='cnt'>5 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/alerts</code></td><td>List Alerts</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/alerts</code></td><td>Raise Alert</td></tr><tr><td><span class='m patch'>PATCH</span></td><td><code>/alerts/{alert_id}/action</code></td><td>Act On Alert</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/alerts/{alert_id}/responses</code></td><td>Respond To Alert</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/alerts/{alert_id}/responses</code></td><td>List Responses</td></tr></table></details><details><summary><strong>Random assignments</strong> <span class='cnt'>4 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/assignments</code></td><td>List Assignments</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/assignments/generate</code></td><td>Generate Assignment</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/assignments/mine</code></td><td>My Assignment</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/assignments/{assignment_id}/geofence-ping</code></td><td>Geofence Ping</td></tr></table></details><details><summary><strong>Grievances</strong> <span class='cnt'>4 endpoints</span></summary><table><tr><td><span class='m post'>POST</span></td><td><code>/grievances</code></td><td>Submit Grievance</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/grievances</code></td><td>List Grievances</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/grievances/{grievance_id}/escalate</code></td><td>Escalate Grievance</td></tr><tr><td><span class='m patch'>PATCH</span></td><td><code>/grievances/{grievance_id}/status</code></td><td>Update Grievance Status</td></tr></table></details><details><summary><strong>Inspectors</strong> <span class='cnt'>4 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/inspectors</code></td><td>List Inspectors</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/inspectors/{inspector_id}/messages</code></td><td>Thread</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/inspectors/{inspector_id}/messages</code></td><td>Send</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/inspectors/{inspector_id}/messages/read</code></td><td>Mark Read</td></tr></table></details><details><summary><strong>Analytics</strong> <span class='cnt'>3 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/analytics/attendance</code></td><td>Attendance</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/analytics/compliance-summary</code></td><td>Compliance Summary</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/analytics/open-alerts-by-institute</code></td><td>Open Alerts By Institute</td></tr></table></details><details><summary><strong>Evidence (sealed uploads)</strong> <span class='cnt'>3 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/evidence</code></td><td>Evidence Ledger</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/evidence/upload</code></td><td>Upload Evidence</td></tr><tr><td><span class='m get'>GET</span></td><td><code>/evidence/{assignment_id}</code></td><td>List Evidence For Assignment</td></tr></table></details><details><summary><strong>Audit log</strong> <span class='cnt'>2 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/audit-log</code></td><td>List Entries</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/audit-log/events</code></td><td>Record Event</td></tr></table></details><details><summary><strong>Beneficiaries</strong> <span class='cnt'>2 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/beneficiaries/me</code></td><td>Me</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/beneficiaries/me/scheme-requests</code></td><td>Request Scheme</td></tr></table></details><details><summary><strong>Inspections</strong> <span class='cnt'>2 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/inspections</code></td><td>List Inspections</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/inspections</code></td><td>Submit Inspection</td></tr></table></details><details><summary><strong>Notices</strong> <span class='cnt'>2 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/notices</code></td><td>List Notices</td></tr><tr><td><span class='m post'>POST</span></td><td><code>/notices</code></td><td>Create Notice</td></tr></table></details><details><summary><strong>Attendance</strong> <span class='cnt'>1 endpoints</span></summary><table><tr><td><span class='m post'>POST</span></td><td><code>/attendance/check-in</code></td><td>Check In</td></tr></table></details><details><summary><strong>Camera feeds</strong> <span class='cnt'>1 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/cameras</code></td><td>List All Cameras</td></tr></table></details><details><summary><strong>Public</strong> <span class='cnt'>1 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/public/institutes</code></td><td>Public Directory</td></tr></table></details><details><summary><strong>Schemes</strong> <span class='cnt'>1 endpoints</span></summary><table><tr><td><span class='m get'>GET</span></td><td><code>/schemes</code></td><td>Catalogue</td></tr></table></details>
-  </section>
+      </div>
+  </details>
 </main>
 <script src="copy.js"></script>
 <script src="site-config.js"></script>
+<script>
+  // "How it is built" opens the folded backend section.
+  document.getElementById("open-backend")?.addEventListener("click", () => { document.getElementById("backend").open = true; });
+</script>
 </body>
 </html>
