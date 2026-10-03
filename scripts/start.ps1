@@ -20,7 +20,7 @@ param(
 )
 
 $ErrorActionPreference = "Continue"
-$Repo   = "chitransh1101/Nayan"
+$Repo   = "chitransh1101/MoSJE-Nayan-App"
 $Branch = "main"
 $Root   = Split-Path -Parent $PSScriptRoot
 Set-Location $Root
